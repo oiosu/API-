@@ -4,26 +4,25 @@ export default class App extends Component {
     constructor() {
         super({
             state: {
-                inputText: ''
+                // 배열 데이터
+                fruits: [
+                    { name: 'Apple', price: 1000 },
+                    { name: 'Banana', price: 2000 },
+                    { name: 'Cherry', price: 3000 }
+                ]
             }
         })
     }
     // 선언적 렌더링
     render() {
-        this.classList.add('search')
-        this.el.innerHTML = /* html */ `
-            <input />
-            <button>Click!</button>
+        console.log(this.state.fruits)
+
+        this.el.innerHTML = /* HTML */ `
+        <h1>Fruits</h1>
+        <ul>
+            ${}
+        </ul>
+        
         `
-
-        const inputEl = this.el.querySelector('input')
-        inputEl.addEventListener('input', () => {
-            this.state.inputText = inputEl.value
-        })
-
-        const buttonEl = this.el.querySelector('button')
-        buttonEl.addEventListener('click', () => {
-            console.log(this.state.inputText)
-        })
     }
 }
