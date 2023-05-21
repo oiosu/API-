@@ -1,20 +1,29 @@
-// export default class App {
-//     constructor() {
-//         this.el = document.createElement('div')
-//         this.el.textContent = 'Hello, world!'
-//     }
-// }
-
-import { Component } from './core/su.js'
+import { Component } from './core/su'
 
 export default class App extends Component {
-    // 생략가능
-    // constructor() {
-    //     super({
-    //         tagName: 'h1'
-    //     })
-    // }
+    constructor() {
+        super({
+            state: {
+                inputText: ''
+            }
+        })
+    }
+    // 선언적 렌더링
     render() {
-        this.el.textContent = 'Hello, world!'
+        this.classList.add('search')
+        this.el.innerHTML = /* html */ `
+            <input />
+            <button>Click!</button>
+        `
+
+        const inputEl = this.el.querySelector('input')
+        inputEl.addEventListener('input', () => {
+            this.state.inputText = inputEl.value
+        })
+
+        const buttonEl = this.el.querySelector('button')
+        buttonEl.addEventListener('click', () => {
+            console.log(this.state.inputText)
+        })
     }
 }

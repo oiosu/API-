@@ -564,29 +564,55 @@ const root = document.querySelector("#root");
 root.append(new (0, _appDefault.default)().el);
 
 },{"./App":"2kQhy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2kQhy":[function(require,module,exports) {
-// export default class App {
-//     constructor() {
-//         this.el = document.createElement('div')
-//         this.el.textContent = 'Hello, world!'
-//     }
-// }
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _suJs = require("./core/su.js");
-class App extends (0, _suJs.Component) {
-    // 생략가능
-    // constructor() {
-    //     super({
-    //         tagName: 'h1'
-    //     })
-    // }
+var _su = require("./core/su");
+class App extends (0, _su.Component) {
+    constructor(){
+        super({
+            state: {
+                inputText: ""
+            }
+        });
+    }
+    // 선언적 렌더링
     render() {
-        this.el.textContent = "Hello, world!";
+        this.classList.add("search");
+        this.el.innerHTML = /* html */ `
+            <input />
+            <button>Click!</button>
+        `;
+        const inputEl = this.el.querySelector("input");
+        inputEl.addEventListener("input", ()=>{
+            this.state.inputText = inputEl.value;
+        });
+        const buttonEl = this.el.querySelector("button");
+        buttonEl.addEventListener("click", ()=>{
+            console.log(this.state.inputText);
+        });
     }
 }
 exports.default = App;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./core/su.js":"2wlRy"}],"gkKU3":[function(require,module,exports) {
+},{"./core/su":"2wlRy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2wlRy":[function(require,module,exports) {
+// 앞으로의 core 역할!
+// Component
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Component", ()=>Component);
+class Component {
+    constructor(payload = {}){
+        const { tagName ="div" , state ={}  } = payload;
+        this.el = document.createElement(tagName);
+        this.state = state;
+        this.render();
+    }
+    render() {
+    // ...
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -616,23 +642,6 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"2wlRy":[function(require,module,exports) {
-// 앞으로의 core 역할!
-// Component
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Component", ()=>Component);
-class Component {
-    constructor(payload = {}){
-        const { tagName ="div"  } = payload;
-        this.el = document.createElement(tagName);
-        this.render();
-    }
-    render() {
-    // ...
-    }
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["e11Rl","gLLPy"], "gLLPy", "parcelRequire3839")
+},{}]},["e11Rl","gLLPy"], "gLLPy", "parcelRequire3839")
 
 //# sourceMappingURL=index.4d6bcbeb.js.map
