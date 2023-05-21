@@ -593,10 +593,10 @@ class App extends (0, _su.Component) {
     render() {
         console.log(this.state.fruits);
         this.el.innerHTML = /* HTML */ `
-        <h1>Fruits</h1>
-        <ul>
-            $
-        </ul>
+            <h1>Fruits</h1>
+            <ul>
+                ${this.state.fruits.filter((fruit)=>fruit.price < 3000).map((fruit)=>`<li>${fruit.name}</li>`).join("")}
+            </ul>
         
         `;
     }
