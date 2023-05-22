@@ -560,61 +560,36 @@ function hmrAccept(bundle, id) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _app = require("./App");
 var _appDefault = parcelHelpers.interopDefault(_app);
+// 필요한 곳에서 가져와서 
+var _routes = require("./routes");
+var _routesDefault = parcelHelpers.interopDefault(_routes);
 const root = document.querySelector("#root");
 root.append(new (0, _appDefault.default)().el);
+// 필요한 곳에서 호출을 한다.
+(0, _routesDefault.default)();
 
-},{"./App":"2kQhy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2kQhy":[function(require,module,exports) {
+},{"./App":"2kQhy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./routes":"3L9mC"}],"2kQhy":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _su = require("./core/su");
-var _fruitItem = require("./components/FruitItem");
-var _fruitItemDefault = parcelHelpers.interopDefault(_fruitItem);
+var _theHeader = require("./components/TheHeader");
+var _theHeaderDefault = parcelHelpers.interopDefault(_theHeader);
 class App extends (0, _su.Component) {
-    constructor(){
-        super({
-            state: {
-                // 배열 데이터
-                fruits: [
-                    {
-                        name: "Apple",
-                        price: 1000
-                    },
-                    {
-                        name: "Banana",
-                        price: 2000
-                    },
-                    {
-                        name: "Cherry",
-                        price: 3000
-                    }
-                ]
-            }
-        });
-    }
-    // 선언적 렌더링
     render() {
-        console.log(this.state.fruits);
-        this.el.innerHTML = /* HTML */ `
-            <h1>Fruits</h1>
-            <ul></ul>
-        `;
-        const ulEl = this.el.querySelector("ul");
-        ulEl.append(...this.state.fruits.filter((fruit)=>fruit.price < 4000).map((fruit)=>new (0, _fruitItemDefault.default)({
-                props: {
-                    name: fruit.name,
-                    price: fruit.price
-                }
-            }).el));
+        const routerView = document.createElement("router-view");
+        this.el.append(new (0, _theHeaderDefault.default)().el, routerView);
     }
 }
 exports.default = App;
 
-},{"./core/su":"2wlRy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./components/FruitItem":"79Im4"}],"2wlRy":[function(require,module,exports) {
+},{"./core/su":"2wlRy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./components/TheHeader":"3Cyq4"}],"2wlRy":[function(require,module,exports) {
 // 앞으로의 core 역할!
-// Component
+/////// Component ///////
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Component", ()=>Component);
+/////// Router ///////
+parcelHelpers.export(exports, "createRouter", ()=>createRouter);
 class Component {
     constructor(payload = {}){
         const { tagName ="div" , state ={} , props ={}  } = payload;
@@ -626,6 +601,14 @@ class Component {
     render() {
     // ...
     }
+}
+function createRouter(routes) {
+    return function() {
+        window.addEventListener("popstate", ()=>{
+            routeRender(routes);
+        });
+        routeRender(routes);
+    };
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
@@ -658,28 +641,71 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"79Im4":[function(require,module,exports) {
+},{}],"3Cyq4":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _su = require("../core/su");
-class FruitsItem extends (0, _su.Component) {
-    constructor(payload){
+class TheHeader extends (0, _su.Component) {
+    constructor(){
         super({
-            tagName: "li",
-            props: payload.props
+            tagName: "header"
         });
     }
     render() {
         this.el.innerHTML = /* HTML */ `
-        <span>${this.props.name}</span>
-        <span>${this.props.price}</span>
+        <a href="#/">Main!</a> 
+        <a href="#/about">About!</a>
         `;
-        this.el.addEventListener("click", ()=>{
-            console.log(this.props.name, this.props.price);
-        });
     }
 }
-exports.default = FruitsItem;
+exports.default = TheHeader;
+
+},{"../core/su":"2wlRy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3L9mC":[function(require,module,exports) {
+// routes : page들 
+// 페이지 내용 제어하기
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _su = require("../core/su");
+var _home = require("./Home");
+var _homeDefault = parcelHelpers.interopDefault(_home);
+var _about = require("./About");
+var _aboutDefault = parcelHelpers.interopDefault(_about);
+exports.default = createRouter([
+    {
+        path: "#/",
+        component: (0, _homeDefault.default)
+    },
+    {
+        path: "#/about",
+        component: (0, _aboutDefault.default)
+    }
+]);
+
+},{"./Home":"0JSNG","./About":"gdB30","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../core/su":"2wlRy"}],"0JSNG":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _su = require("../core/su");
+class Home extends (0, _su.Component) {
+    render() {
+        this.el.innerHTML = /* HTML */ `
+        <h1> HOME PAGE </h1>
+        `;
+    }
+}
+exports.default = Home;
+
+},{"../core/su":"2wlRy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gdB30":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _su = require("../core/su");
+class About extends (0, _su.Component) {
+    render() {
+        this.el.innerHTML = /* HTML */ `
+        <h1> About PAGE </h1>
+        `;
+    }
+}
+exports.default = About;
 
 },{"../core/su":"2wlRy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["e11Rl","gLLPy"], "gLLPy", "parcelRequire3839")
 

@@ -1,5 +1,6 @@
 // 앞으로의 core 역할!
-// Component
+
+/////// Component ///////
 export class Component {
     constructor(payload = {}) {
         const { 
@@ -16,3 +17,13 @@ export class Component {
         // ...
     }
 }
+
+/////// Router ///////
+export function createRouter(routes) {
+    return function () {
+        window.addEventListener('popstate', () => {
+            routeRender(routes)
+        })
+        routeRender(routes)
+    }
+} 
